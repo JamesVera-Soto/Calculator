@@ -1,30 +1,24 @@
 #include <stdio.h>
 #include <iostream>
-#include <fstream>
-#include <math.h>
+#include <string>
 #include <stack>
 #include <vector>
-#include <string>
+#include <fstream>
+#include <math.h>
 using namespace std;
 
-class Calculator{
-private:
-  bool isFormatted = false;
+class Calculator{ 
+  private:
 
-public:
+  public:
 
-  string reformat(string s);
+    string reformat(string s);
 
-  string removeTrailingZeros(string s);
+    string removeTrailingZeros(string &s);
+        
+    int findClosingP(string &s, int l, int r);
 
-  int findClosingP(string &s, int l, int r);
+    double plusMinus(vector<string> v, int &i);
 
-  string getNextNumber(string &s, int &i);
-
-  double plusMinus(string &s, int &i);
-
-  double opCal(double n1, double n2, char op);
-
-  string calculate(string s);
-
+    string calculate(string s);
 };
