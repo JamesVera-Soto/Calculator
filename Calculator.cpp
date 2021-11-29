@@ -70,21 +70,17 @@ string Calculator::reformat(string s){
   
   string Calculator::getNextNumber(string &s, int &i){
       string curNum = "";
-      if(s[0] == '['){
+      if(s[0] == '~'){
           i++;
-          while(s[i] != ']'){
-              curNum += s[i];
-             i++;
-          }
-          i++;
+          curNum += '-';
       }
-      else{
-          while((s[i] >= '0' && s[i] <= '9') || s[i] == '.'){
-              curNum += s[i];
-              i++;
-          }
+      
+      while((s[i] >= '0' && s[i] <= '9') || s[i] == '.'){
+          curNum += s[i];
+           i++;
       }
-      return curNum;
+      i--;
+    return curNum;
   }
   
   double Calculator::plusMinus(string &s, int &i){
@@ -152,6 +148,7 @@ string Calculator::reformat(string s){
           if(s[i] == '('){
               int len = findClosingP(s,i,s.length()) - i;
               curNum = calculate(s.substr(i+1,len-1));
+              if(curNum[0] == '-') curNum[0] = '~';
               i += len;
               curStr += curNum;
               curNum = "";
@@ -162,25 +159,26 @@ string Calculator::reformat(string s){
       }
       cout << "post par: " << curStr << endl;
       
-      //curStr = reformat(curStr);
-      
       // for cahr ops[] = { '^', '*', '/', '+', '-' } 
       for(int o1 = -1, o2 = 0; o2 < 5; o1+=2, o2+=2){
-          //curStr = reformat(curStr);
+          bool isTilda = false;
+          bool priorityOp = false;
           s = curStr;
+          s = reformat(s);
           curStr = "";
           prevNum = "";
           curNum = "";
           for(int i = 0; i < s.length(); i++){
               cout << "come one omg: " << s[i] << " ops " << o1 << o2 << endl;
+              // if priority operator
               if((o1 != -1 && s[i] == ops[o1]) || s[i] == ops[o2]){
-                  // find next number and result for priority operator
+                  // find next number and result
+                  priorityOp = true;
                   op = s[i];
                   i++;
                   prevNum = curNum;
                   curNum = getNextNumber(s, i);
-                  i--;
-                  cout << "passing to stod: " << prevNum << " and " << curNum << " and op: " << op << endl;
+                  cout << "passing to stod: " << prevNum << " and " << curNum << " and op: " << op << " for s: " << s << endl;
                   n1 = stod(prevNum);
                   n2 = stod(curNum);
                   curNum = removeTrailingZeros(to_string(opCal(n1,n2,op)));
@@ -188,13 +186,22 @@ string Calculator::reformat(string s){
               }
               else {
                   // number
-                  if((s[i] >= '0' && s[i] <= '9') || s[i] == '.' || s[i] == '['){
-                          curNum += s[i];
+                  if((s[i] >= '0' && s[i] <= '9') || s[i] == '.' || s[i] == '~'){
+                      if(s[i] == '~'){
+                          isTilda = true;
+                          curNum += '-';
+                          i++;
+                      }
+                      curNum += s[i];
                       if(i == s.length()-1) curStr += curNum;
                   }
                   // other operator
                   else{
                       prevNum = curNum;
+                      if(isTilda && !priorityOp){
+                        isTilda = false;
+                        prevNum[0] = '~';
+                      }
                       curStr += prevNum;
                       curStr += s[i];
                       curNum = "";

@@ -4,7 +4,7 @@ CORRECT! 22 for: 5+((3+5)*2)+1
 CORRECT! 27 for: 2+5^2
 CORRECT! 10 for: 2(((5)))
 CORRECT! 0 for: 0
-CORRECT! 6 for: 1--5
-!!! ERROR !!! for: 1+(-5)^2
-!!! ERROR !!! for: (-5)(-5)
+!!! ERROR !!! for: 1---5
+CORRECT! 26 for: 1+(-5)^2
+CORRECT! 25 for: (-5)(-5)
 CORRECT! 8 for: 2(4)
