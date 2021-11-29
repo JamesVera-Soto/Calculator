@@ -1,10 +1,10 @@
-!!! ERROR !!! for: -3-((2-5)*6)^2-6/4+0.7(150)
-CORRECT! 1870.5 for: 3+((2+5)*6)^2-6/4+0.7(150)
-CORRECT! 22 for: 5+((3+5)*2)+1
-CORRECT! 27 for: 2+5^2
-CORRECT! 10 for: 2(((5)))
+CORRECT! 192.99 for: (--++--212.99---+++--5-9++-6)
+CORRECT! 26 for: 3+5*8/2+3
 CORRECT! 0 for: 0
-!!! ERROR !!! for: 1---5
-CORRECT! 26 for: 1+(-5)^2
-CORRECT! 25 for: (-5)(-5)
-CORRECT! 8 for: 2(4)
+CORRECT! 86 for: -7+6*2+9^2
+CORRECT! -11.5 for: ---15++6/3*0.5+1/2+2
+CORRECT! 15 for: 6+9
+CORRECT! -223.5 for: -3-((2-5)*6)^2-6/4+0.7(150)
+CORRECT! 4097 for: (4^2)^(3^(2+1*(-1)))+1
+CORRECT! 1 for: 1
+CORRECT! -99 for: -99
