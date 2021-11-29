@@ -20,7 +20,7 @@ int main()
     a[8] = "1";
     a[9] = "-99";
     
-    s[0] = "(--++--212.99---+++--5-9++-6)";
+    s[0] = "--++--212.99---+++--5-9++-6";
     s[1] = "3+5*8/2+3";
     s[2] = "0";
     s[3] = "-7+6*2+9^2";
@@ -39,9 +39,9 @@ int main()
             if(res == a[i]) outFile << "CORRECT! " << res << " for: " << s[i] << endl;
             else outFile << "*** Incorrect *** " << res << " for: " << s[i] << endl;
         }
-        catch(...){
-            outFile << "!!! ERROR !!! for: " << s[i] << endl;
-            cout << "!!! ERROR !!! for: " << s[i] << endl;
+        catch(invalid_argument &e){
+            outFile << "!!! ERROR !!! " << e.what() << " for: " << s[i] << endl;
+            cout << "!!! ERROR !!! " << e.what() << " for: " << s[i] << endl;
             continue;
         }
     }

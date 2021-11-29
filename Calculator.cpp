@@ -7,7 +7,7 @@ string Calculator::reformat(string s){
     
     for(int i = 0, j = 1; j < s.length(); i++, j++){
         
-        // multiply from paratheses
+        // multiply from parentheses
         if(((s[i] >= '0' && s[i] <= '9') || (s[i] == ')' ) || (s[i] == '.')) && s[j] == '('){
             res += s[i];
             res += '*';
@@ -19,7 +19,6 @@ string Calculator::reformat(string s){
     res += s[s.length() - 1];
     
     if(changeOccured) return reformat(res);
-    //cout << "Complete reformat: " << res << endl;
     return res;
 }
 
@@ -54,7 +53,7 @@ int Calculator::findClosingP(string &s, int l, int r){
         
         l++;
     }
-    return -1;
+    throw invalid_argument("No mathcing parentheses.");
 }
 
 double Calculator::plusMinus(vector<string> v, int &i){
@@ -102,7 +101,7 @@ string Calculator::calculate(string s){
     double n1, n2;
     
     
-    // Recursive calls for parantheses
+    // Recursive calls for parentheses
     for(int i = 0; i < s.length(); i++){
         if(s[i] == '('){
             int len = findClosingP(s,i,s.length()) - i;
@@ -170,7 +169,10 @@ string Calculator::calculate(string s){
             // operator *
             if(prevVec[i] == "*") n1 = stod(curNum) * stod(prevVec[i+1]);
             // operator /
-            else if(prevVec[i] == "/") n1 = stod(curNum) / stod(prevVec[i+1]);
+            else if(prevVec[i] == "/") {
+              if(prevVec[i+1] == "0") throw invalid_argument("Can not divide by 0.");
+              n1 = stod(curNum) / stod(prevVec[i+1]);
+            }
             i++;
             curNum = to_string(n1);
         }
