@@ -18,7 +18,7 @@ class Calculator{
         
     int findClosingP(string &s, int l, int r);
 
-    double plusMinus(vector<string> v, int &i);
+    double getNextNum(vector<string> v, int &i);
 
     string calculate(string s);
 };

@@ -10,4 +10,4 @@ CORRECT! 1 for: 1
 CORRECT! -99 for: -99
 CORRECT! 36 for: -6*-6
 CORRECT! 0.5 for: 2^-1
-!!! ERROR !!! stod for: 5-/2
+!!! ERROR !!! Syntax Error for: 5-/2

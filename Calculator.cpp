@@ -1,6 +1,5 @@
 #include "Calculator.h"
 
-
 string Calculator::reformat(string s){
     string res = "";
     bool changeOccured = false;
@@ -56,7 +55,7 @@ int Calculator::findClosingP(string &s, int l, int r){
     throw invalid_argument("No mathcing parentheses.");
 }
 
-double Calculator::plusMinus(vector<string> v, int &i){
+double Calculator::getNextNum(vector<string> v, int &i){
     bool numberFound = false;
     string curStr = "";
     while(i < v.size()){
@@ -74,7 +73,7 @@ double Calculator::plusMinus(vector<string> v, int &i){
                 return stod(curStr);
             }
             // no number found yet
-            return plusMinus(v, ++i);
+            return getNextNum(v, ++i);
         }
         else if(v[i] == "-"){
             // number has already been found
@@ -83,7 +82,7 @@ double Calculator::plusMinus(vector<string> v, int &i){
                 return stod(curStr);
             }
             // no number found yet
-            return -plusMinus(v, ++i);
+            return -getNextNum(v, ++i);
         }
         // other operators
         else {
@@ -144,8 +143,9 @@ string Calculator::calculate(string s){
         // or index is a priority operator
         else if(prevVec[i] == "^"){
             // operator ^
-            n1 = pow(stod(curNum), plusMinus(prevVec, ++i));
-            //i++;
+            if(curNum.length() == 0) throw invalid_argument("Syntax Error");
+            n1 = pow(stod(curNum), getNextNum(prevVec, ++i));
+            
             curNum = to_string(n1);
         }
         
@@ -172,14 +172,16 @@ string Calculator::calculate(string s){
         // or index is a priority operator
         else if(prevVec[i] == "*" || prevVec[i] == "/"){
             // operator *
-            if(prevVec[i] == "*") n1 = stod(curNum) * plusMinus(prevVec, ++i);
+            if(curNum.length() == 0) throw invalid_argument("Syntax Error");
+            if(prevVec[i] == "*") n1 = stod(curNum) * getNextNum(prevVec, ++i);
             // operator /
             else if(prevVec[i] == "/") {
               int tempI = i;
-              if(plusMinus(prevVec, ++tempI) == 0) throw invalid_argument("Can not divide by 0.");
-              n1 = stod(curNum) / plusMinus(prevVec, ++i);
+              if(curNum.length() == 0) throw invalid_argument("Syntax Error");
+              if(getNextNum(prevVec, ++tempI) == 0) throw invalid_argument("Can not divide by 0.");
+              n1 = stod(curNum) / getNextNum(prevVec, ++i);
             }
-            //i++;
+            
             curNum = to_string(n1);
         }
         
@@ -205,14 +207,15 @@ string Calculator::calculate(string s){
         
         else {
             // or index is operator +
-            if(prevVec[i] == "+") n1 = stod(curNum) + plusMinus(prevVec, ++i);
+            if(prevVec[i] == "+") n1 = stod(curNum) + getNextNum(prevVec, ++i);
             
             // or index is operator -
-            else if(prevVec[i] == "-") n1 = stod(curNum) - plusMinus(prevVec, ++i);
+            else if(prevVec[i] == "-") n1 = stod(curNum) - getNextNum(prevVec, ++i);
             curNum = to_string(n1);
         }
         
     }
-        
+      
     return removeTrailingZeros(curNum);
 };
+
