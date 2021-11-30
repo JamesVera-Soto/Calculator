@@ -85,9 +85,14 @@ double Calculator::plusMinus(vector<string> v, int &i){
             // no number found yet
             return -plusMinus(v, ++i);
         }
-        // POTENTIAL ERRORS: FIX LATER
-        else return stod(curStr);
+        // other operators
+        else {
+          --i;
+          if(curStr.length() == 0) throw invalid_argument("Syntax Error");
+          return stod(curStr);
+        }
     }
+    if(curStr.length() == 0) throw invalid_argument("Syntax Error");
     return stod(curStr);
 }
 
@@ -139,8 +144,8 @@ string Calculator::calculate(string s){
         // or index is a priority operator
         else if(prevVec[i] == "^"){
             // operator ^
-            n1 = pow(stod(curNum), stod(prevVec[i+1]));
-            i++;
+            n1 = pow(stod(curNum), plusMinus(prevVec, ++i));
+            //i++;
             curNum = to_string(n1);
         }
         
@@ -167,13 +172,14 @@ string Calculator::calculate(string s){
         // or index is a priority operator
         else if(prevVec[i] == "*" || prevVec[i] == "/"){
             // operator *
-            if(prevVec[i] == "*") n1 = stod(curNum) * stod(prevVec[i+1]);
+            if(prevVec[i] == "*") n1 = stod(curNum) * plusMinus(prevVec, ++i);
             // operator /
             else if(prevVec[i] == "/") {
-              if(prevVec[i+1] == "0") throw invalid_argument("Can not divide by 0.");
-              n1 = stod(curNum) / stod(prevVec[i+1]);
+              int tempI = i;
+              if(plusMinus(prevVec, ++tempI) == 0) throw invalid_argument("Can not divide by 0.");
+              n1 = stod(curNum) / plusMinus(prevVec, ++i);
             }
-            i++;
+            //i++;
             curNum = to_string(n1);
         }
         

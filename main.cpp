@@ -5,7 +5,7 @@ int main()
 {
     Calculator cal;
     ofstream outFile("results.txt");
-    int MAX = 10;
+    int MAX = 13;
     string s[MAX];
     string a[MAX];
     
@@ -19,6 +19,9 @@ int main()
     a[7] = "4097";
     a[8] = "1";
     a[9] = "-99";
+    a[10] = "36";
+    a[11] = "0.5";
+    a[12] = "ERROR";
     
     s[0] = "--++--212.99---+++--5-9++-6";
     s[1] = "3+5*8/2+3";
@@ -30,6 +33,9 @@ int main()
     s[7] = "(4^2)^(3^(2+1*(-1)))+1";
     s[8] = "1";
     s[9] = "-99";
+    s[10] = "-6*-6";
+    s[11] = "2^-1";
+    s[12] = "5-/2";
     
     string res;
     for(int i = 0; i < MAX; i++){
@@ -37,7 +43,8 @@ int main()
             res = cal.calculate(s[i]);
             cout << "ANSWER: " << res << endl;
             if(res == a[i]) outFile << "CORRECT! " << res << " for: " << s[i] << endl;
-            else outFile << "*** Incorrect *** " << res << " for: " << s[i] << endl;
+            else outFile << "*** Incorrect *** " << res << " for: " << s[i] << 
+            " should be: " << a[i] << endl;
         }
         catch(invalid_argument &e){
             outFile << "!!! ERROR !!! " << e.what() << " for: " << s[i] << endl;

@@ -8,3 +8,6 @@ CORRECT! -223.5 for: -3-((2-5)*6)^2-6/4+0.7(150)
 CORRECT! 4097 for: (4^2)^(3^(2+1*(-1)))+1
 CORRECT! 1 for: 1
 CORRECT! -99 for: -99
+CORRECT! 36 for: -6*-6
+CORRECT! 0.5 for: 2^-1
+!!! ERROR !!! stod for: 5-/2
