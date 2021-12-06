@@ -4,19 +4,29 @@ string Calculator::reformat(string s){
     string res = "";
     bool changeOccured = false;
     
+    // remove spaces
+    for(int i = 0; i < s.length(); i++){
+        if(s[i] == ' ') continue;
+        else res += s[i];
+    }
+    s = res;
+    res = "";
+
     for(int i = 0, j = 1; j < s.length(); i++, j++){
-        
+        // i haven't added e+/- yet
+        if(s[i] == 'e') throw invalid_argument("'e' feature has not been added yet");
+
         // multiply from parentheses
         if(((s[i] >= '0' && s[i] <= '9') || (s[i] == ')' ) || (s[i] == '.')) && s[j] == '('){
             res += s[i];
             res += '*';
             changeOccured = true;
         }
-        
+
         else res += s[i];
     }
     res += s[s.length() - 1];
-    
+
     if(changeOccured) return reformat(res);
     return res;
 }
@@ -43,16 +53,16 @@ string Calculator::removeTrailingZeros(string &s){
 int Calculator::findClosingP(string &s, int l, int r){
     stack<int> pStack;
     while(l < r){
-        
+
         if(s[l] == '(') pStack.push(l);
-        
+
         else if(s[l] == ')') pStack.pop();
-        
+
         if(pStack.empty()) return l;
-        
+
         l++;
     }
-    throw invalid_argument("No mathcing parentheses.");
+    throw invalid_argument("Missing matching parentheses");
 }
 
 double Calculator::getNextNum(vector<string> v, int &i){
@@ -103,8 +113,8 @@ string Calculator::calculate(string s){
     string curNum = "";
     string sc;
     double n1, n2;
-    
-    
+
+
     // Recursive calls for parentheses
     for(int i = 0; i < s.length(); i++){
         if(s[i] == '('){
@@ -113,9 +123,14 @@ string Calculator::calculate(string s){
             curVec.push_back(curNum);
             curNum = "";
             i += len;
-        }        
-        else if(isdigit(s[i]) || s[i] == '.') {
+        }
+        else if(s[i] == ')') throw invalid_argument("Missing matching parentheses");
+        else if(isdigit(s[i]) || s[i] == '.' || s[i] == 'e') {
             curNum += s[i];
+            if(s[i] == 'e'){
+                i++;
+                curNum += s[i];
+            }
             if(i == s.length()-1) {
                 curVec.push_back(curNum);
             }
@@ -129,26 +144,26 @@ string Calculator::calculate(string s){
             curVec.push_back(sc);
         }
     }
-    
+
     // Go through vec for power
     prevVec = curVec;
     curVec.clear();
-    curNum = ""; 
+    curNum = "";
     for(int i = 0; i < prevVec.size(); i++){
         // index is a number
         if(prevVec[i].length() > 1 || isdigit(prevVec[i][0])){
             curNum = prevVec[i];
         }
-        
+
         // or index is a priority operator
         else if(prevVec[i] == "^"){
             // operator ^
             if(curNum.length() == 0) throw invalid_argument("Syntax Error");
             n1 = pow(stod(curNum), getNextNum(prevVec, ++i));
-            
+
             curNum = to_string(n1);
         }
-        
+
         // or index is non-priority operator
         else {
             // update curVec
@@ -158,7 +173,7 @@ string Calculator::calculate(string s){
         }
     }
     curVec.push_back(curNum);
-    
+
     // Go through vec for multiply divide
     prevVec = curVec;
     curVec.clear();
@@ -168,7 +183,7 @@ string Calculator::calculate(string s){
         if(prevVec[i].length() > 1 || isdigit(prevVec[i][0])){
             curNum = prevVec[i];
         }
-        
+
         // or index is a priority operator
         else if(prevVec[i] == "*" || prevVec[i] == "/"){
             // operator *
@@ -178,13 +193,13 @@ string Calculator::calculate(string s){
             else if(prevVec[i] == "/") {
               int tempI = i;
               if(curNum.length() == 0) throw invalid_argument("Syntax Error");
-              if(getNextNum(prevVec, ++tempI) == 0) throw invalid_argument("Can not divide by 0.");
+              if(getNextNum(prevVec, ++tempI) == 0) throw invalid_argument("Can not divide by zero");
               n1 = stod(curNum) / getNextNum(prevVec, ++i);
             }
-            
+
             curNum = to_string(n1);
         }
-        
+
         // or index is non-priority operator
         else {
             // update curVec
@@ -193,8 +208,8 @@ string Calculator::calculate(string s){
             curVec.push_back(prevVec[i]);
         }
     }
-    curVec.push_back(curNum); 
-    
+    curVec.push_back(curNum);
+
     // Go through vec for plus minus
     prevVec = curVec;
     curVec.clear();
@@ -204,18 +219,18 @@ string Calculator::calculate(string s){
         if(prevVec[i].length() > 1 || isdigit(prevVec[i][0])){
             curNum = prevVec[i];
         }
-        
+
         else {
             // or index is operator +
             if(prevVec[i] == "+") n1 = stod(curNum) + getNextNum(prevVec, ++i);
-            
+
             // or index is operator -
             else if(prevVec[i] == "-") n1 = stod(curNum) - getNextNum(prevVec, ++i);
             curNum = to_string(n1);
         }
-        
+
     }
-      
+
     return removeTrailingZeros(curNum);
 };
 

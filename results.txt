@@ -1,13 +1,22 @@
-CORRECT! 192.99 for: --++--212.99---+++--5-9++-6
-CORRECT! 26 for: 3+5*8/2+3
-CORRECT! 0 for: 0
-CORRECT! 86 for: -7+6*2+9^2
-CORRECT! -11.5 for: ---15++6/3*0.5+1/2+2
-CORRECT! 15 for: 6+9
-CORRECT! -223.5 for: -3-((2-5)*6)^2-6/4+0.7(150)
-CORRECT! 4097 for: (4^2)^(3^(2+1*(-1)))+1
+CORRECT! 4 for: 2 + 2
+CORRECT! 4 for: 2*2
+CORRECT! 4 for: 2^2
+*** Incorrect *** 5.656854 for: 32^(1/2) should be: 5.656854249492381
+CORRECT! 8.8 for: (1+3)/5+8
+!!! ERROR !!! Can not divide by zero for: 5/0
+*** Incorrect *** 40.333333 for: (2+(5*7+(4/3)-5)+7) should be: 40.333333333333336
+!!! ERROR !!! Missing matching parentheses for: (2+(5*7+(4/3)-5)+7
+!!! ERROR !!! Missing matching parentheses for: 2+( 5 * 7+(4/3)-5)+7)
+CORRECT! 0.5 for: 5/2-2
+!!! ERROR !!! Can not divide by zero for: 5/ (2  -2)
+CORRECT! 12 for: 144^(0.5)
+CORRECT! 1 for: 144^(1-1    )
+*** Incorrect *** 24 for: 2 + 2 2 should be: Invalid expression.
 CORRECT! 1 for: 1
-CORRECT! -99 for: -99
-CORRECT! 36 for: -6*-6
-CORRECT! 0.5 for: 2^-1
-!!! ERROR !!! Syntax Error for: 5-/2
+CORRECT! 2 for: 2+1*0
+*** Incorrect *** 2 for: 2^4^0.25 should be: 2.665144142690225
+*** Incorrect *** 2.665145 for: 2^(4^0.25) should be: 2.665144142690225
+CORRECT! 2 for: (2^4)^0.25
+*** Incorrect *** 1.111111 for: 10/9 should be: 1.1111111111111112
+CORRECT! 2.999232 for: 1+2-3*4/5^6
+!!! ERROR !!! 'e' feature has not been added yet for: nohabloingles

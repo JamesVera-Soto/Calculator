@@ -1,9 +1,15 @@
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
 #include "Calculator.h"
 using namespace std;
 
 int main()
 {
     Calculator cal;
+    ifstream testInFile, testOutFile;
+    testInFile.open("test.in");
+    testOutFile.open("test.out");
     ofstream outFile("results.txt");
     int MAX = 13;
     string s[MAX];
@@ -38,6 +44,7 @@ int main()
     s[12] = "5-/2";
     
     string res;
+    /*
     for(int i = 0; i < MAX; i++){
         try{
             res = cal.calculate(s[i]);
@@ -49,6 +56,25 @@ int main()
         catch(invalid_argument &e){
             outFile << "!!! ERROR !!! " << e.what() << " for: " << s[i] << endl;
             cout << "!!! ERROR !!! " << e.what() << " for: " << s[i] << endl;
+            continue;
+        }
+    }
+    */
+    string testInStr = "";
+    string testOutStr = "";
+    while(!testInFile.eof() && !testOutFile.eof()){
+      getline(testInFile, testInStr);
+      getline(testOutFile, testOutStr);
+      try{
+            res = cal.calculate(testInStr);
+            cout << "ANSWER: " << res << endl;
+            if(res == testOutStr) outFile << "CORRECT! " << res << " for: " << testInStr << endl;
+            else outFile << "*** Incorrect *** " << res << " for: " << testInStr << 
+            " should be: " << testOutStr << endl;
+        }
+        catch(invalid_argument &e){
+            outFile << "!!! ERROR !!! " << e.what() << " for: " << testInStr << endl;
+            cout << "!!! ERROR !!! " << e.what() << " for: " << testInStr << endl;
             continue;
         }
     }
